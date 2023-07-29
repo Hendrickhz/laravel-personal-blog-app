@@ -13,7 +13,11 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        //
+        $articles= Article::latest("id")
+        ->with('category')
+        ->paginate(10)
+        ->withQueryString();
+        return view('articles.index',compact('articles'));
     }
 
     /**
@@ -21,7 +25,7 @@ class ArticleController extends Controller
      */
     public function create()
     {
-        //
+        return view('articles.create');
     }
 
     /**
@@ -37,7 +41,7 @@ class ArticleController extends Controller
      */
     public function show(Article $article)
     {
-        //
+        return view('articles.show',compact('article'));
     }
 
     /**
@@ -45,7 +49,7 @@ class ArticleController extends Controller
      */
     public function edit(Article $article)
     {
-        //
+        return view('articles.show');
     }
 
     /**

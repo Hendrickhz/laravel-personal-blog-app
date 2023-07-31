@@ -6,12 +6,12 @@ use App\Models\Article;
 use App\Models\Category;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use function PHPUnit\Framework\isNull;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Builder;
 
 use App\Http\Requests\StoreArticleRequest;
 use App\Http\Requests\UpdateArticleRequest;
+use Illuminate\Support\Facades\Session;
 
 class ArticleController extends Controller
 {
@@ -41,6 +41,53 @@ class ArticleController extends Controller
             ->paginate(10)
             ->withQueryString();
         return view('articles.index', compact('articles'));
+    }
+
+    public function showTrashBin()
+    {
+        $articles = Article::onlyTrashed()
+        ->when(request()->has('title'), function ($query) {
+            $titleSort = request()->title;
+            $query->orderBy("title", $titleSort);
+        })
+            ->when(request()->has('category'), function ($query) {
+                $categorySort = request()->category;
+                $query->orderBy("category_id", $categorySort);
+            })
+            ->when(request()->has('deleted_at'), function ($query) {
+                $deleted_at = request()->deleted_at;
+                $query->orderBy("deleted_at", $deleted_at);
+            })
+            ->when(request()->has('keyword'), function ($query) {
+                $query->where(function (Builder $builder) {
+                    $keyword = request()->keyword;
+                    $builder->where("title", "like", "%" . $keyword . "%");
+                    $builder->orWhere("full_text", "like", "%" . $keyword . "%");
+
+                });
+            })
+            ->latest("id")
+            ->with('category')
+            ->paginate(10);
+
+        return view('articles.trash', compact('articles'));
+    }
+
+    public function restore($id)
+    {
+        $article= Article::withTrashed()->findOrFail($id);
+        $article->restore();
+        Session::flash("restore_message","The article is restored successfully.");
+        return view('articles.show',compact('article'));
+    }
+
+    public function forceDelete($id)
+    {
+        $article= Article::withTrashed()->findOrFail($id);
+        $article->forceDelete();
+        Session::flash("forceDelete_message","The article is deleted permanently.");
+        // dd(session('forceDelete_message'));
+        return redirect()->back();
     }
 
     /**

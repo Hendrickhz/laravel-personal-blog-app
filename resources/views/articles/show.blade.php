@@ -1,6 +1,12 @@
 @extends('layouts.app')
 
 @section('content')
+@if (Session::has('restore_message'))
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+ {{Session::get('restore_message')}}
+ <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+@endif
     <div class="">
         <h4>{{$article->title}}</h4>
         <div class="">

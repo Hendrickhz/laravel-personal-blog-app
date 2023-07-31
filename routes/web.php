@@ -25,6 +25,9 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+Route::get('articles/trash-bin',[ArticleController::class,'showTrashBin'])->name('articles.showTrashBin');
+Route::get('articles/restore/{id}',[ArticleController::class,'restore'])->name('articles.restore');
+Route::delete('articles/force-delete/{id}',[ArticleController::class,'forceDelete'])->name('articles.forceDelete');
 Route::resource('articles',ArticleController::class);
 Route::resource('categories',CategoryController::class);
 Route::resource('tags',TagController::class);

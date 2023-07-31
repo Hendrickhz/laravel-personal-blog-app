@@ -17,8 +17,9 @@ return new class extends Migration
             $table->string("article_slug");
             $table->text('full_text');
             $table->text('article_excerpt');
-            $table->string('img')->default("https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg");
+            $table->string('img')->nullable();
             $table->foreignId('category_id');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

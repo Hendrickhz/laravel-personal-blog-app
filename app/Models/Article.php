@@ -4,11 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Article extends Model
 {
-    use HasFactory;
-    protected $fillable=["title","full_text","article_slug","article_excerpt","img",'category_id'];
+    use HasFactory, SoftDeletes;
+    protected $fillable=["title","full_text","article_slug","article_excerpt","img",'category_id','deleted_at'];
 
     public function category()
     {

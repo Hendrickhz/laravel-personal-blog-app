@@ -18,7 +18,8 @@ class ArticleFactory extends Factory
     public function definition(): array
     {
         $title=fake()->sentence();
-        $para= fake()->paragraph(20);
+        $number=rand(30,80);
+        $para= fake()->paragraphs($number,true);
         return [
             "title"=>$title,
             "article_slug"=>Str::slug($title),

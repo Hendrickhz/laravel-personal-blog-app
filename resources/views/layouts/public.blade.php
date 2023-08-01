@@ -25,11 +25,14 @@
             <div class="col-7">
                 @yield('content')
             </div>
-            <div class="col-5">
+            <div class="col-5  ">
                 @include('layouts.right-nav')
             </div>
            </div>
         </main>
+        <footer>
+            @include('footer')
+        </footer>
     </div>
 </body>
 </html>

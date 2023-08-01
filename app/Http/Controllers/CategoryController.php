@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use Illuminate\Support\Str;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
 
@@ -13,7 +14,13 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        $categories=Category::
+        when(request()->has('title'), function ($query) {
+            $nameSort = request()->title;
+            $query->orderBy("category_name", $nameSort);
+        })
+        ->paginate(10)->withQueryString();
+        return view('categories.index',compact('categories'));
     }
 
     /**
@@ -21,7 +28,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        return view('categories.create');
     }
 
     /**
@@ -29,23 +36,24 @@ class CategoryController extends Controller
      */
     public function store(StoreCategoryRequest $request)
     {
-        //
+     $category=   Category::create([
+            "category_name"=>$request->category_name,
+            "category_slug"=>Str::slug($request->category_name)
+        ]);
+         return  redirect()->route('categories.index')->with('create_message',$category->category_name. " is created successfully.");
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Category $category)
-    {
-        //
-    }
+
 
     /**
      * Show the form for editing the specified resource.
      */
     public function edit(Category $category)
     {
-        //
+        return view('categories.edit',compact('category'));
     }
 
     /**
@@ -53,7 +61,11 @@ class CategoryController extends Controller
      */
     public function update(UpdateCategoryRequest $request, Category $category)
     {
-        //
+        $category->update([
+            "category_name"=>$request->category_name,
+            "category_slug"=>Str::slug($request->category_name)
+        ]);
+        return  redirect()->route('categories.index')->with('create_message',$category->category_name. " is updated successfully.");
     }
 
     /**
@@ -61,6 +73,7 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+       $category->delete();
+        return redirect()->back()->with('delete_message',$category->category_name. " is deleted permanently");
     }
 }

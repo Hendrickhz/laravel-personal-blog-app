@@ -13,7 +13,8 @@ class TagController extends Controller
      */
     public function index()
     {
-        //
+        $tags=Tag::paginate(10)->withQueryString();
+        return view('tags.index',compact('tags'));
     }
 
     /**
@@ -21,7 +22,7 @@ class TagController extends Controller
      */
     public function create()
     {
-        //
+        return view('tags.create');
     }
 
     /**
@@ -29,23 +30,20 @@ class TagController extends Controller
      */
     public function store(StoreTagRequest $request)
     {
-        //
+        $tag=Tag::create([
+            "tag_name"=>$request->tag_name,
+        ]);
+        return redirect()->route('tags.index')->with('create_message',$tag->tag_name. " is created successfully.");
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Tag $tag)
-    {
-        //
-    }
+
 
     /**
      * Show the form for editing the specified resource.
      */
     public function edit(Tag $tag)
     {
-        //
+        return view('tags.edit',compact('tag'));
     }
 
     /**
@@ -53,7 +51,10 @@ class TagController extends Controller
      */
     public function update(UpdateTagRequest $request, Tag $tag)
     {
-        //
+        $tag->update([
+            "tag_name"=>$request->tag_name,
+        ]);
+        return redirect()->route('tags.index')->with('update_message',$tag->tag_name. " is updated successfully.");
     }
 
     /**
@@ -61,6 +62,7 @@ class TagController extends Controller
      */
     public function destroy(Tag $tag)
     {
-        //
+        $tag->delete();
+         return redirect()->back()->with('delete_message',$tag->tag_name. " is deleted permanently.");
     }
 }

@@ -67,4 +67,13 @@ class HomeController extends Controller
             ->withQueryString();
         return view('public.categorized', compact('articles','category'));
     }
+
+    public function aboutMe()
+    {
+        return view('about-me');
+    }
+    public function home()
+    {
+        return view('home');
+    }
 }

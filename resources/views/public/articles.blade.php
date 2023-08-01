@@ -19,6 +19,7 @@
                <small class=" text-muted">{{Str::readingMinutes($article->full_text)}} minutes</small> .
                <small class="  rounded px-2 py-1"><a class=" text-decoration-none btn btn-light btn-sm" href="{{route('public.categorized',$article->category->category_slug)}}">{{$article->category->category_name}}</a></small>
            </div>
+           
        </div>
        <div class="col-4">
            @if ($article->img)

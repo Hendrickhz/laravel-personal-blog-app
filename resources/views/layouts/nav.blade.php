@@ -17,17 +17,20 @@
             <ul class="navbar-nav ms-auto">
                 <!-- Authentication Links -->
                 @guest
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('public.index') }}">Articles</a>
+                </li>
+                    <li class="nav-item">
+                            <a class="nav-link" href="{{ route('public.aboutMe') }}">About Author</a>
+                        </li>
+
                     @if (Route::has('login'))
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                            <a class="nav-link" href="{{ route('login') }}">Write</a>
                         </li>
                     @endif
 
-                    @if (Route::has('register'))
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                        </li>
-                    @endif
+
                 @else
                 <li class="nav-item dropdown show">
                     <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
@@ -40,6 +43,43 @@
                         </a>
                         <a class="dropdown-item" href="{{route('articles.create')}}">
                             Create Article
+                        </a>
+
+
+                    </div>
+
+
+                </li>
+                <li class="nav-item dropdown show">
+                    <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                        Categories
+                    </a>
+
+
+                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuLink">
+                        <a class="dropdown-item" href="{{route('categories.index')}}">
+                            Categories List
+                        </a>
+                        <a class="dropdown-item" href="{{route('categories.create')}}">
+                            Create Category
+                        </a>
+
+
+                    </div>
+
+                </li>
+                <li class="nav-item dropdown show">
+                    <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                        Tags
+                    </a>
+
+
+                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuLink">
+                        <a class="dropdown-item" href="{{route('tags.index')}}">
+                            Tags List
+                        </a>
+                        <a class="dropdown-item" href="{{route('tags.create')}}">
+                            Create Tag
                         </a>
 
 

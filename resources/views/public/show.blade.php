@@ -12,6 +12,13 @@
                 <small class=" btn btn-sm btn-light rounded px-2 py-1">{{$article->category->category_name}}</small>
             </div>
 
+            <div class="my-3 d-flex gap-2 small">
+                <span>Tags: </span>
+                @foreach ($article->tags as $tag)
+                    <span class="  text-decoration-underline">#{{$tag->tag_name}}</span>
+                @endforeach
+           </div>
+
             <div class="my-3">
                   @if ($article->img)
 

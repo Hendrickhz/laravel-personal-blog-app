@@ -13,6 +13,12 @@
             <span class=" text-muted">{{$article->created_at}}</span>
             <p class="  ">Category: {{$article->category->category_name}}</p>
         </div>
+        <div class="my-3 d-flex gap-2 small">
+            <span>Tags: </span>
+            @foreach ($article->tags as $tag)
+                <span class="  text-decoration-underline">#{{$tag->tag_name}}</span>
+            @endforeach
+       </div>
         <div class="mx-auto my-3">
               @if ($article->img)
 

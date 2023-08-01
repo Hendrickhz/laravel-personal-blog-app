@@ -11,7 +11,7 @@ class UpdateCategoryRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,8 +21,9 @@ class UpdateCategoryRequest extends FormRequest
      */
     public function rules(): array
     {
+        $id=request()->category->id;
         return [
-            //
+           "category_name"=>"required|string|unique:categories,category_name,$id"
         ];
     }
 }

@@ -124,6 +124,7 @@ class ArticleController extends Controller
 
 
         $article->save();
+        $article->tags()->attach($request->tags);
         return redirect()->route('articles.index')->with("create_message","A new article is created successfully.");
     }
 
@@ -168,8 +169,8 @@ class ArticleController extends Controller
                 $article->img = $thumbnailPath;
             }
 
+            $article->tags()->sync($request->tags);
             $article->update();
-            // $article->tags()->sync($request->tags);
             return redirect()->route('articles.index')->with("update_message", "Article updated successfully.");
 
 

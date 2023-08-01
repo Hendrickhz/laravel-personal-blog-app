@@ -22,17 +22,25 @@ Route::controller(HomeController::class)->group(function () {
     Route::get('/', 'index')->name('public.index');
     Route::get('/article/{slug}','show')->name('public.show');
     Route::get('/category/{slug}','categorized')->name('public.categorized');
+    Route::get('about-me', 'aboutMe')->name('public.aboutMe');
 });
 
-Auth::routes();
+Auth::routes(
+    [
+        "register"=>false
+    ]
+);
 
-// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::get('articles/trash-bin', [ArticleController::class, 'showTrashBin'])->name('articles.showTrashBin');
-Route::get('articles/restore/{id}', [ArticleController::class, 'restore'])->name('articles.restore');
-Route::delete('articles/force-delete/{id}', [ArticleController::class, 'forceDelete'])->name('articles.forceDelete');
-Route::prefix('dashboard')->group(function(){
+
+
+Route::prefix('dashboard')->middleware('auth')->group(function(){
+    Route::get('articles/trash-bin', [ArticleController::class, 'showTrashBin'])->name('articles.showTrashBin');
+    Route::get('articles/restore/{id}', [ArticleController::class, 'restore'])->name('articles.restore');
+    Route::delete('articles/force-delete/{id}', [ArticleController::class, 'forceDelete'])->name('articles.forceDelete');
     Route::resource('articles', ArticleController::class);
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'home'])->name('home');
+    Route::resource('categories', CategoryController::class);
+    Route::resource('tags', TagController::class);
 });
-Route::resource('categories', CategoryController::class);
-Route::resource('tags', TagController::class);
+

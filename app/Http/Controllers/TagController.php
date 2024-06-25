@@ -13,7 +13,12 @@ class TagController extends Controller
      */
     public function index()
     {
-        $tags=Tag::paginate(10)->withQueryString();
+        $tags=Tag::
+        when(request()->has('title'), function ($query) {
+            $nameSort = request()->title;
+            $query->orderBy("tag_name", $nameSort);
+        })
+        ->paginate(10)->withQueryString();
         return view('tags.index',compact('tags'));
     }
 
